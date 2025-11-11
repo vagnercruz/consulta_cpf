@@ -8,14 +8,43 @@
 </head>
 <body class="bg-light d-flex align-items-center justify-content-center vh-100">
   <div class="card shadow-lg p-4 rounded-4" style="width: 400px;">
-    <h2 class="text-center mb-3 text-primary">🔍 Consulta de CPF</h2>
+    <h2 class="text-center mb-3 text-primary">
+      🔍 Consulta de CPF
+    </h2>
     <form action="/validar" method="post">
       <div class="mb-3">
         <label for="cpf" class="form-label">Digite o CPF:</label>
-        <input type="text" id="cpf" name="cpf" class="form-control text-center" placeholder="000.000.000-00" required>
+        <input 
+          type="text" 
+          id="cpf" 
+          name="cpf" 
+          class="form-control text-center" 
+          placeholder="000.000.000-00" 
+          maxlength="14" 
+          required
+        >
       </div>
       <button class="btn btn-primary w-100">Validar CPF</button>
     </form>
   </div>
+
+  <script>
+    const cpfInput = document.getElementById('cpf');
+
+    cpfInput.addEventListener('input', function(e) {
+      // Remove tudo que não é número
+      let value = e.target.value.replace(/\D/g, '');
+
+      // Aplica a máscara: XXX.XXX.XXX-XX
+      if (value.length > 3 && value.length <= 6)
+        value = value.replace(/(\d{3})(\d+)/, '$1.$2');
+      else if (value.length > 6 && value.length <= 9)
+        value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
+      else if (value.length > 9)
+        value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+
+      e.target.value = value;
+    });
+  </script>
 </body>
 </html>
