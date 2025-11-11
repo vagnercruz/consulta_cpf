@@ -2,9 +2,5 @@
 
 source "https://rubygems.org"
 
-# gem "rails"
-
-gem 'cpf_cnpj'
-gem 'httparty'
-gem 'json'
-gem 'dotenv'
+gem "sinatra"
+gem "cpf_cnpj"
