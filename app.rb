@@ -1,7 +1,16 @@
-require_relative 'consulta_cpf'
+require 'sinatra'
+require_relative 'validador'
 
-puts "=== Consulta de CPF ==="
-print "Digite o CPF: "
-cpf = gets.chomp
+set :bind, '0.0.0.0'
+set :port, 4567
 
-ConsultaCPF.consultar(cpf)
+get '/' do
+  erb :index
+end
+
+post '/validar' do
+  cpf = params[:cpf].to_s.strip
+  @cpf = cpf
+  @valido = ValidadorCPF.validar(cpf)
+  erb :resultado
+end
