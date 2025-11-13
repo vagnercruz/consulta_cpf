@@ -6,27 +6,37 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
-    /* Spinner custom */
-    .spinner-border {
-      width: 1.3rem;
-      height: 1.3rem;
-      border-width: 0.2em;
-      vertical-align: middle;
-      margin-right: 8px;
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: transform 0.4s ease, opacity 0.3s;
     }
-
-    .btn-loading {
-      pointer-events: none;
-      opacity: 0.8;
+    .theme-toggle:hover {
+      transform: rotate(20deg) scale(1.1);
+      opacity: 0.9;
+    }
+    .fade-icon {
+      animation: fadeRotate 0.4s ease;
+    }
+    @keyframes fadeRotate {
+      from { opacity: 0; transform: rotate(-90deg) scale(0.8); }
+      to { opacity: 1; transform: rotate(0) scale(1); }
     }
   </style>
 </head>
 
-<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+<body class="d-flex align-items-center justify-content-center vh-100">
+  <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema">
+    🌙
+  </button>
+
   <div class="card shadow-lg p-4 rounded-4" style="width: 400px;">
-    <h2 class="text-center mb-3 text-primary">
-      🔍 Consulta de CPF
-    </h2>
+    <h2 class="text-center mb-3 text-primary">🔍 Consulta de CPF</h2>
 
     <form id="cpfForm" action="/validar" method="post">
       <div class="mb-3">
@@ -52,8 +62,9 @@
     const cpfInput = document.getElementById('cpf');
     const form = document.getElementById('cpfForm');
     const submitBtn = document.getElementById('submitBtn');
+    const themeToggle = document.getElementById('themeToggle');
 
-    // --- Máscara de CPF ---
+    // Máscara de CPF
     cpfInput.addEventListener('input', function(e) {
       let value = e.target.value.replace(/\D/g, '');
       if (value.length > 3 && value.length <= 6)
@@ -65,21 +76,38 @@
       e.target.value = value;
     });
 
-    // --- Animação de carregamento ---
+    // Spinner de carregamento
     form.addEventListener('submit', function(e) {
-      // substitui o botão pelo spinner
       submitBtn.innerHTML = `
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         Validando CPF...
       `;
-      submitBtn.classList.add('btn-loading');
-      
-      // impede múltiplos cliques
       submitBtn.disabled = true;
-
-      // pequena pausa (simula processamento) antes de enviar o form
       setTimeout(() => form.submit(), 800);
       e.preventDefault();
+    });
+
+    // Alternância de tema
+    const userTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+      themeToggle.classList.add('fade-icon');
+      setTimeout(() => themeToggle.classList.remove('fade-icon'), 400);
+    }
+
+    // Aplica tema inicial
+    if (userTheme) applyTheme(userTheme);
+    else applyTheme(systemDark ? 'dark' : 'light');
+
+    // Clique para alternar
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
     });
   </script>
 </body>
