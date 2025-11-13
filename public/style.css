@@ -22,3 +22,9 @@ input:focus {
   box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
   transition: 0.2s;
 }
+
+.btn-loading {
+  background-color: #0d6efd;
+  color: #fff;
+  transition: all 0.3s ease;
+}
