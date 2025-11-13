@@ -1,6 +1,3 @@
-/* 🔧 Tema controlado por atributo [data-theme] */
-
-/* Tema claro */
 :root[data-theme='light'] {
   --bg: linear-gradient(135deg, #f0f4ff, #ffffff);
   --card-bg: #ffffff;
@@ -87,7 +84,6 @@ label {
   box-shadow: 0 0 8px rgba(13, 110, 253, 0.4);
 }
 
-/* Ajuste para o tema escuro */
 :root[data-theme='dark'] .btn-outline-primary {
   border-color: var(--primary);
   color: #dbe6ff;

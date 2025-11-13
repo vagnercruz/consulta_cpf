@@ -45,12 +45,12 @@
     <% end %>
 
     <a href="/" class="btn btn-outline-primary mt-3 w-100">Nova consulta</a>
+    <a href="/historico" class="btn btn-outline-secondary mt-2 w-100">Ver histórico</a>
   </div>
 
   <script>
+    // Controle de tema (mesma lógica da tela principal)
     const themeToggle = document.getElementById('themeToggle');
-
-    // Alternância de tema (mesma lógica da página inicial)
     const userTheme = localStorage.getItem('theme');
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
