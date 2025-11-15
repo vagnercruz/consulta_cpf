@@ -7,26 +7,30 @@ class ConsultasController < ApplicationController
 
   def create
     cpf_raw = params[:consulta][:cpf].to_s
-    cpf_numero = cpf_raw.gsub(/\D/, "")
+    cpf_num = cpf_raw.gsub(/\D/, "")
 
-    if cpf_numero.length != 11
+    if cpf_num.length != 11
       flash[:alert] = "CPF incompleto!"
       return redirect_to root_path
     end
 
-    valido = CPF.valid?(cpf_numero)
-    cpf_formatado = CPF.new(cpf_numero).formatted
+    valido = CPF.valid?(cpf_num)
+    cpf_formatado = CPF.new(cpf_num).formatted
 
-    Consulta.create!(
+    @consulta = Consulta.create!(
       cpf: cpf_formatado,
       valido: valido,
-      data: Time.now
+      data: Time.current
     )
 
-    redirect_to historico_path
+    redirect_to resultado_path(@consulta.id)
+  end
+
+  def resultado
+    @consulta = Consulta.find(params[:id])
   end
 
   def historico
-    @consultas = Consulta.order(data: :desc).limit(20)
+    @consultas = Consulta.order(data: :desc).limit(30)
   end
 end

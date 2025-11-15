@@ -1,11 +1,11 @@
-<div class="card-custom mx-auto" style="max-width: 800px;">
-  <h2 class="text-center mb-4" style="color:var(--primary)">Histórico de Consultas</h2>
+<div class="card-custom mx-auto" style="max-width: 900px;">
+  <h2 class="text-center mb-4" style="color: var(--primary)">Histórico de Consultas</h2>
 
   <table class="table table-hover">
     <thead>
       <tr>
         <th>CPF</th>
-        <th>Validação</th>
+        <th>Status</th>
         <th>Data</th>
       </tr>
     </thead>
@@ -14,6 +14,7 @@
       <% @consultas.each do |c| %>
         <tr>
           <td><%= c.cpf %></td>
+
           <td>
             <% if c.valido %>
               <span class="text-success fw-bold">Válido ✓</span>
@@ -21,11 +22,12 @@
               <span class="text-danger fw-bold">Inválido ✗</span>
             <% end %>
           </td>
+
           <td><%= c.data.strftime("%d/%m/%Y %H:%M") %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
-  <a href="/" class="btn btn-outline-primary w-100 mt-3">Nova Consulta</a>
+  <a href="/" class="btn btn-outline-primary w-100 mt-4">Nova Consulta</a>
 </div>

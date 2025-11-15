@@ -1,10 +1,53 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+:root[data-theme='light'] {
+  --bg: #f4f7ff;
+  --card: white;
+  --text: #222;
+  --primary: #0d6efd;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0d1117;
+  --card: #161b22;
+  --text: #e6edf3;
+  --primary: #3ea6ff;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.4s, color 0.4s;
+}
+
+.card-custom {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.12);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+input {
+  background: var(--card) !important;
+  color: var(--text) !important;
+  border-color: var(--primary) !important;
+}
+
+input:focus {
+  box-shadow: 0 0 8px rgba(13,110,253,0.4);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary);
+  color: white !important;
+  box-shadow: 0 0 10px rgba(13,110,253,0.5);
+}
