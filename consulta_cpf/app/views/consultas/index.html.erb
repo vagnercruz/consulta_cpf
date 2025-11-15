@@ -1,0 +1,17 @@
+<div class="card-custom mx-auto" style="max-width: 500px;">
+  <h2 class="text-center mb-3" style="color: var(--primary)">Consulta de CPF</h2>
+
+  <%= form_with model: @consulta, url: consultas_path, method: :post do |f| %>
+
+    <label>Digite o CPF:</label>
+    <%= f.text_field :cpf, class: "form-control mb-3", placeholder: "000.000.000-00", maxlength: 14,
+       oninput: "this.value = this.value.replace(/\\D/g,'').replace(/(\\d{3})(\\d)/,'$1.$2').replace(/(\\d{3})(\\d)/,'$1.$2').replace(/(\\d{3})(\\d{1,2})/,'$1-$2')" %>
+
+    <%= f.submit "Validar CPF", class: "btn btn-primary w-100" %>
+
+  <% end %>
+
+  <% if flash[:alert] %>
+    <div class="alert alert-danger mt-3"><%= flash[:alert] %></div>
+  <% end %>
+</div>

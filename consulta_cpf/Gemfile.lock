@@ -103,6 +103,7 @@ GEM
       xpath (~> 3.2)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
+    cpf_cnpj (1.0.1)
     crass (1.0.6)
     date (3.5.0)
     debug (1.11.0)
@@ -398,6 +399,7 @@ DEPENDENCIES
   brakeman
   bundler-audit
   capybara
+  cpf_cnpj
   debug
   image_processing (~> 1.2)
   importmap-rails
