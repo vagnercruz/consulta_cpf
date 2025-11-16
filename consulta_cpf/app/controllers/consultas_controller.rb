@@ -1,36 +1,31 @@
 class ConsultasController < ApplicationController
-  require "cpf_cnpj"
+  before_action :require_login
 
   def index
     @consulta = Consulta.new
   end
 
   def create
-    cpf_raw = params[:consulta][:cpf].to_s
-    cpf_num = cpf_raw.gsub(/\D/, "")
+    @consulta = current_user.consultas.build(consulta_params)
 
-    if cpf_num.length != 11
-      flash[:alert] = "CPF incompleto!"
-      return redirect_to root_path
+    if @consulta.save
+      redirect_to resultado_path(@consulta)
+    else
+      render :index
     end
-
-    valido = CPF.valid?(cpf_num)
-    cpf_formatado = CPF.new(cpf_num).formatted
-
-    @consulta = Consulta.create!(
-      cpf: cpf_formatado,
-      valido: valido,
-      data: Time.current
-    )
-
-    redirect_to resultado_path(@consulta.id)
-  end
-
-  def resultado
-    @consulta = Consulta.find(params[:id])
   end
 
   def historico
-    @consultas = Consulta.order(data: :desc).limit(30)
+    if admin?
+      @consultas = Consulta.includes(:user).order(created_at: :desc)
+    else
+      @consultas = current_user.consultas.order(created_at: :desc)
+    end
+  end
+
+  private
+
+  def consulta_params
+    params.require(:consulta).permit(:cpf)
   end
 end
